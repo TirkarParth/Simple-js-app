@@ -15,3 +15,11 @@ var pokemonList = [
     { name: "Charmander", height: 6, types: ['fire'] },
     { name: "Squirtle", height: 5, types: ['water'] }
 ];
+
+// Iterate over each item in pokemonList using a for loop
+for (var i = 0; i < pokemonList.length; i++) {
+    var pokemon = pokemonList[i];
+
+    // Write the Pokémon name and its height on the website's DOM
+    document.write(pokemon.name + " (height: " + pokemon.height + ")<br>");
+}
