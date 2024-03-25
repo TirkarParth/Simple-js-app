@@ -43,6 +43,12 @@ pokemonList.forEach(function(pokemon) {
     heightElement.classList.add("pokemon-height");
     heightElement.textContent = "Height: " + pokemon.height;
 
+
+    // Check if the height is above a certain value (e.g., 6)
+    if (pokemon.height > 6) {
+        heightElement.textContent += " - Wow, that's big!"; // Add a note for special Pokémon
+    }
+
     var typesElement = document.createElement("div");
     typesElement.classList.add("pokemon-types");
     typesElement.textContent = "Types: " + pokemon.types.join(", ");
