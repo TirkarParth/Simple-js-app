@@ -1,0 +1,25 @@
+/* CSS styles for Pokémon list */
+.pokemon-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.pokemon-card {
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.pokemon-name {
+    font-weight: bold;
+}
+
+.pokemon-height {
+    font-style: italic;
+}
