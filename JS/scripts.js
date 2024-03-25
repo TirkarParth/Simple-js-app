@@ -61,5 +61,24 @@ var pokemonRepository = (function () {
 
         // Append the Pokémon card to the container
         pokemonContainer.appendChild(pokemonCard);
+
+        // Public functions
+        // Return an object containing the pokemonList array
+        return {
+            // Return all items in the pokemonList array
+            getAll: function () {
+                return pokemonList;
+            },
+            // Add a single item to the pokemonList array
+            add: function (item) {
+                // Check if the item is a valid Pokémon object
+                if (typeof item === 'object' && 'name' in item && 'height' in item && 'types' in item) {
+                    pokemonList.push(item);
+                } else {
+                    console.error("Invalid Pokémon object.");
+                }
+            }
+        };
+
     });
 })();
