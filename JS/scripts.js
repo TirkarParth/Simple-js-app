@@ -29,56 +29,65 @@ var pokemonRepository = (function () {
         { name: "Squirtle", height: 5, types: ['water'] }
     ];
 
-    // Iterate over each Pokémon in the pokemonList array
-    pokemonList.forEach(function (pokemon) {
-        // Create a div element to represent the Pokémon card
-        var pokemonCard = document.createElement("div");
-        pokemonCard.classList.add("pokemon-card");
+    // Public functions
+    // Define the getAll function
+    function getAll() {
+        return pokemonList;
+    }
 
-        // Create elements to display Pokémon name, height, and types
-        var nameElement = document.createElement("div");
-        nameElement.classList.add("pokemon-name");
-        nameElement.textContent = pokemon.name;
-
-        var heightElement = document.createElement("div");
-        heightElement.classList.add("pokemon-height");
-        heightElement.textContent = "Height: " + pokemon.height;
-
-
-        // Check if the height is above a certain value (e.g., 6)
-        if (pokemon.height > 6) {
-            heightElement.textContent += " - Wow, that's big!"; // Add a note for special Pokémon
+    // Define the add function
+    function add(item) {
+        // Check if the item is a valid Pokémon object
+        if (typeof item === 'object' && 'name' in item && 'height' in item && 'types' in item) {
+            pokemonList.push(item);
+        } else {
+            console.error("Invalid Pokémon object.");
         }
+    }
 
-        var typesElement = document.createElement("div");
-        typesElement.classList.add("pokemon-types");
-        typesElement.textContent = "Types: " + pokemon.types.join(", ");
+    // Public functions
+    return {
+        // Return all items in the pokemonList array
+        getAll: getAll,
+        // Add a single item to the pokemonList array
+        add: add
+    };
 
-        // Append name, height, and types elements to the Pokémon card
-        pokemonCard.appendChild(nameElement);
-        pokemonCard.appendChild(heightElement);
-        pokemonCard.appendChild(typesElement);
-
-        // Append the Pokémon card to the container
-        pokemonContainer.appendChild(pokemonCard);
-
-        // Public functions
-        // Return an object containing the pokemonList array
-        return {
-            // Return all items in the pokemonList array
-            getAll: function () {
-                return pokemonList;
-            },
-            // Add a single item to the pokemonList array
-            add: function (item) {
-                // Check if the item is a valid Pokémon object
-                if (typeof item === 'object' && 'name' in item && 'height' in item && 'types' in item) {
-                    pokemonList.push(item);
-                } else {
-                    console.error("Invalid Pokémon object.");
-                }
-            }
-        };
-
-    });
 })();
+
+// Iterate over each Pokémon in the pokemonRepository array
+pokemonRepository.getAll().forEach(function(pokemon) {
+    // Create a div element to represent the Pokémon card
+    var pokemonCard = document.createElement("div");
+    pokemonCard.classList.add("pokemon-card");
+
+    // Create elements to display Pokémon name, height, and types
+    var nameElement = document.createElement("div");
+    nameElement.classList.add("pokemon-name");
+    nameElement.textContent = pokemon.name;
+
+    var heightElement = document.createElement("div");
+    heightElement.classList.add("pokemon-height");
+    heightElement.textContent = "Height: " + pokemon.height;
+
+
+    // Check if the height is above a certain value (e.g., 6)
+    if (pokemon.height > 6) {
+        heightElement.textContent += " - Wow, that's big!"; // Add a note for special Pokémon
+    }
+
+    var typesElement = document.createElement("div");
+    typesElement.classList.add("pokemon-types");
+    typesElement.textContent = "Types: " + pokemon.types.join(", ");
+
+    // Append name, height, and types elements to the Pokémon card
+    pokemonCard.appendChild(nameElement);
+    pokemonCard.appendChild(heightElement);
+    pokemonCard.appendChild(typesElement);
+
+    // Append the Pokémon card to the container
+    pokemonContainer.appendChild(pokemonCard);
+
+
+});
+
