@@ -19,8 +19,8 @@
 // Get the container for the Pokémon list
 var pokemonContainer = document.getElementById("pokemonList");
 
-// Immediately Invoked Function Expression (IIFE) to encapsulate pokemonList
-(function () {
+// Create a new pokemonRepository variable to hold the IIFE return value
+var pokemonRepository = (function () {
 
     // Create a variable called pokemonList and assign it an array of Pokémon objects
     var pokemonList = [
