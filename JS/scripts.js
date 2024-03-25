@@ -16,10 +16,43 @@ var pokemonList = [
     { name: "Squirtle", height: 5, types: ['water'] }
 ];
 
-// Iterate over each item in pokemonList using a for loop
-for (var i = 0; i < pokemonList.length; i++) {
-    var pokemon = pokemonList[i];
+// // Iterate over each item in pokemonList using a for loop
+// for (var i = 0; i < pokemonList.length; i++) {
+//     var pokemon = pokemonList[i];
 
-    // Write the Pokémon name and its height on the website's DOM
-    document.write(pokemon.name + " (height: " + pokemon.height + ")<br>");
-}
+//     // Write the Pokémon name and its height on the website's DOM
+//     document.write(pokemon.name + " (height: " + pokemon.height + ")<br>");
+// }
+
+
+// Get the container for the Pokémon list
+var pokemonContainer = document.getElementById("pokemonList");
+
+// Iterate over each Pokémon in the pokemonList array
+pokemonList.forEach(function(pokemon) {
+    // Create a div element to represent the Pokémon card
+    var pokemonCard = document.createElement("div");
+    pokemonCard.classList.add("pokemon-card");
+
+    // Create elements to display Pokémon name, height, and types
+    var nameElement = document.createElement("div");
+    nameElement.classList.add("pokemon-name");
+    nameElement.textContent = pokemon.name;
+
+    var heightElement = document.createElement("div");
+    heightElement.classList.add("pokemon-height");
+    heightElement.textContent = "Height: " + pokemon.height;
+
+    var typesElement = document.createElement("div");
+    typesElement.classList.add("pokemon-types");
+    typesElement.textContent = "Types: " + pokemon.types.join(", ");
+
+    // Append name, height, and types elements to the Pokémon card
+    pokemonCard.appendChild(nameElement);
+    pokemonCard.appendChild(heightElement);
+    pokemonCard.appendChild(typesElement);
+
+    // Append the Pokémon card to the container
+    pokemonContainer.appendChild(pokemonCard);
+});
+
