@@ -24,7 +24,6 @@ var pokemonList = [
 //     document.write(pokemon.name + " (height: " + pokemon.height + ")<br>");
 // }
 
-
 // Get the container for the Pokémon list
 var pokemonContainer = document.getElementById("pokemonList");
 
