@@ -29,17 +29,30 @@ var pokemonRepository = (function () {
         { name: "Squirtle", height: 5, types: ['water'] }
     ];
 
+    // Function to add event listener to the button
+    function addButtonEventListener(button, pokemon) {
+        button.addEventListener('click', function () {
+            showDetails(pokemon);
+        });
+    }
+
     // Define the addListItem function to create buttons for each Pokémon
     function addListItem(pokemon) {
         var button = document.createElement('button');
         button.innerText = pokemon.name;
         button.classList.add('pokemon-button');
-        button.addEventListener('click', function () {
-            showDetails(pokemon);
-        });
+
+        // Call the function to add event listener
+        addButtonEventListener(button, pokemon);
+
         var listItem = document.createElement('li');
         listItem.appendChild(button);
         pokemonContainer.appendChild(listItem);
+    }
+
+    // Define the showDetails function to log Pokémon details
+    function showDetails(pokemon) {
+        console.log(pokemon);
     }
 
     // Public functions
@@ -77,12 +90,6 @@ pokemonRepository.getAll().forEach(function (pokemon) {
     heightElement.classList.add("pokemon-height");
     heightElement.textContent = "Height: " + pokemon.height;
 
-
-    // Check if the height is above a certain value (e.g., 6)
-    if (pokemon.height > 6) {
-        heightElement.textContent += " - Wow, that's big!"; // Add a note for special Pokémon
-    }
-
     var typesElement = document.createElement("div");
     typesElement.classList.add("pokemon-types");
     typesElement.textContent = "Types: " + pokemon.types.join(", ");
@@ -92,9 +99,22 @@ pokemonRepository.getAll().forEach(function (pokemon) {
     pokemonCard.appendChild(heightElement);
     pokemonCard.appendChild(typesElement);
 
+    // Add event listener to the Pokémon card (main container)
+    pokemonCard.addEventListener('click', function () {
+        // Log Pokémon details to the console
+        console.log("Name: " + pokemon.name);
+        console.log("Height: " + pokemon.height);
+        console.log("Types: " + pokemon.types.join(", "));
+    });
+
+    // Check if the height is above a certain value (e.g., 6)
+    if (pokemon.height > 6) {
+        heightElement.textContent += " - Wow, that's big!"; // Add a note for special Pokémon
+    }
+
     // Append the Pokémon card to the container
     pokemonContainer.appendChild(pokemonCard);
-
-
 });
+
+
 
