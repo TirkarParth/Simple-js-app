@@ -23,3 +23,7 @@
 .pokemon-height {
     font-style: italic;
 }
+
+.pokemon-card:hover {
+    background-color: #be4f4f;
+}
