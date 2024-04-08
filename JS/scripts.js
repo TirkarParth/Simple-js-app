@@ -29,34 +29,41 @@ var pokemonRepository = (function () {
         { name: "Squirtle", height: 5, types: ['water'] }
     ];
 
-    // Public functions
-    // Define the getAll function
-    function getAll() {
-        return pokemonList;
-    }
-
-    // Define the add function
-    function add(item) {
-        // Check if the item is a valid Pokémon object
-        if (typeof item === 'object' && 'name' in item && 'height' in item && 'types' in item) {
-            pokemonList.push(item);
-        } else {
-            console.error("Invalid Pokémon object.");
-        }
+    // Define the addListItem function to create buttons for each Pokémon
+    function addListItem(pokemon) {
+        var button = document.createElement('button');
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon-button');
+        button.addEventListener('click', function () {
+            showDetails(pokemon);
+        });
+        var listItem = document.createElement('li');
+        listItem.appendChild(button);
+        pokemonContainer.appendChild(listItem);
     }
 
     // Public functions
     return {
         // Return all items in the pokemonList array
-        getAll: getAll,
+        getAll: function () {
+            return pokemonList;
+        },
         // Add a single item to the pokemonList array
-        add: add
+        add: function (item) {
+            // Check if the item is a valid Pokémon object
+            if (typeof item === 'object' && 'name' in item && 'height' in item && 'types' in item) {
+                pokemonList.push(item);
+                addListItem(item); // Call addListItem to create a button for the new Pokémon
+            } else {
+                console.error("Invalid Pokémon object.");
+            }
+        }
     };
 
 })();
 
 // Iterate over each Pokémon in the pokemonRepository array
-pokemonRepository.getAll().forEach(function(pokemon) {
+pokemonRepository.getAll().forEach(function (pokemon) {
     // Create a div element to represent the Pokémon card
     var pokemonCard = document.createElement("div");
     pokemonCard.classList.add("pokemon-card");
