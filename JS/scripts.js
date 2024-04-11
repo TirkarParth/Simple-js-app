@@ -22,12 +22,8 @@ let pokemonContainer = document.getElementById("pokemonList");
 // Create a new pokemonRepository variable to hold the IIFE return value
 let pokemonRepository = (function () {
 
-    // Create a variable called pokemonList and assign it an array of Pokémon objects
-    let pokemonList = [
-        { name: "Bulbasaur", height: 7, types: ['grass', 'poison'] },
-        { name: "Charmander", height: 6, types: ['fire'] },
-        { name: "Squirtle", height: 5, types: ['water'] }
-    ];
+    // Create an empty array to hold Pokémon objects
+    let pokemonList = [];
 
     // Function to add event listener to the button
     function addButtonEventListener(button, pokemon) {
@@ -52,7 +48,51 @@ let pokemonRepository = (function () {
 
     // Define the showDetails function to log Pokémon details
     function showDetails(pokemon) {
-        console.log(pokemon);
+        loadDetails(pokemon)
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error loading Pokémon details:', error);
+            });
+    }
+
+    // Function to add a single item to the pokemonList array
+    function add(item) {
+        // Check if the item is a valid Pokémon object
+        if (typeof item === 'object' && 'name' in item && 'detailsUrl' in item) {
+            pokemonList.push(item);
+        } else {
+            console.error("Invalid Pokémon object.");
+        }
+    }
+
+    // Function to load the complete list of Pokémon
+    function loadList() {
+        return fetch('https://pokeapi.co/api/v2/pokemon/')
+            .then(response => response.json())
+            .then(data => {
+                data.results.forEach(function (item) {
+                    let pokemon = {
+                        name: item.name,
+                        detailsUrl: item.url
+                    };
+                    add(pokemon); // Add the Pokémon to the list
+                });
+            })
+            .catch(error => console.error('Error fetching Pokémon list:', error));
+    }
+
+    // Function to load details of a specific Pokémon
+    function loadDetails(pokemon) {
+        return fetch(pokemon.detailsUrl)
+            .then(response => response.json())
+            .then(data => {
+                pokemon.imgUrl = data.sprites.front_default;
+                pokemon.height = data.height;
+                return pokemon;
+            })
+            .catch(error => console.error('Error fetching Pokémon details:', error));
     }
 
     // Public functions
@@ -62,59 +102,55 @@ let pokemonRepository = (function () {
             return pokemonList;
         },
         // Add a single item to the pokemonList array
-        add: function (item) {
-            // Check if the item is a valid Pokémon object
-            if (typeof item === 'object' && 'name' in item && 'height' in item && 'types' in item) {
-                pokemonList.push(item);
-                addListItem(item); // Call addListItem to create a button for the new Pokémon
-            } else {
-                console.error("Invalid Pokémon object.");
-            }
-        }
+        add: add,
+        // Function to load the complete list of Pokémon
+        loadList: loadList,
+        // Function to load details of a specific Pokémon
+        loadDetails: loadDetails
     };
 
 })();
 
-// Iterate over each Pokémon in the pokemonRepository array
-pokemonRepository.getAll().forEach(function (pokemon) {
-    // Create a div element to represent the Pokémon card
-    let pokemonCard = document.createElement("div");
-    pokemonCard.classList.add("pokemon-card");
 
-    // Create elements to display Pokémon name, height, and types
-    let nameElement = document.createElement("div");
-    nameElement.classList.add("pokemon-name");
-    nameElement.textContent = pokemon.name;
+// Load the complete list of Pokémon
+pokemonRepository.loadList().then(function () {
+    // Load details for each Pokémon in the pokemonList array
+    pokemonRepository.getAll().forEach(function (pokemon) {
+        pokemonRepository.loadDetails(pokemon).then(function () {
+            // Create a div element to represent the Pokémon card
+            let pokemonCard = document.createElement("div");
+            pokemonCard.classList.add("pokemon-card");
 
-    let heightElement = document.createElement("div");
-    heightElement.classList.add("pokemon-height");
-    heightElement.textContent = "Height: " + pokemon.height;
+            // Create elements to display Pokémon name, height, and types
+            let nameElement = document.createElement("div");
+            nameElement.classList.add("pokemon-name");
+            nameElement.textContent = pokemon.name;
 
-    let typesElement = document.createElement("div");
-    typesElement.classList.add("pokemon-types");
-    typesElement.textContent = "Types: " + pokemon.types.join(", ");
+            let heightElement = document.createElement("div");
+            heightElement.classList.add("pokemon-height");
+            heightElement.textContent = "Height: " + pokemon.height;
 
-    // Append name, height, and types elements to the Pokémon card
-    pokemonCard.appendChild(nameElement);
-    pokemonCard.appendChild(heightElement);
-    pokemonCard.appendChild(typesElement);
+            let imgElement = document.createElement("img");
+            imgElement.classList.add("pokemon-img");
+            imgElement.src = pokemon.imgUrl;
 
-    // Add event listener to the Pokémon card (main container)
-    pokemonCard.addEventListener('click', function () {
-        // Log Pokémon details to the console
-        console.log("Name: " + pokemon.name);
-        console.log("Height: " + pokemon.height);
-        console.log("Types: " + pokemon.types.join(", "));
+            // Append name, height, and image elements to the Pokémon card
+            pokemonCard.appendChild(nameElement);
+            pokemonCard.appendChild(heightElement);
+            pokemonCard.appendChild(imgElement);
+
+            // Add event listener to the Pokémon card (main container)
+            pokemonCard.addEventListener('click', function () {
+                // Log Pokémon details to the console
+                console.log("Name: " + pokemon.name);
+                console.log("Height: " + pokemon.height);
+                console.log("Image URL: " + pokemon.imgUrl);
+            });
+
+            // Append the Pokémon card to the container
+            pokemonContainer.appendChild(pokemonCard);
+        });
     });
-
-    // Check if the height is above a certain value (e.g., 6)
-    if (pokemon.height > 6) {
-        heightElement.textContent += " - Wow, that's big!"; // Add a note for special Pokémon
-    }
-
-    // Append the Pokémon card to the container
-    pokemonContainer.appendChild(pokemonCard);
 });
-
 
 
