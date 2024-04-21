@@ -27,3 +27,70 @@
 .pokemon-card:hover {
     background-color: #be4f4f;
 }
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+  
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+  
+.closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+  
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+  
+  
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .modal {
+      width: 90%;
+    }
+}
+  
+.button-class {
+    background-color: lightblue;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 2px solid lightblue;
+}
