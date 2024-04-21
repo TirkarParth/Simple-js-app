@@ -21,7 +21,6 @@ let pokemonContainer = document.getElementById("pokemonList");
 
 // Create a new pokemonRepository variable to hold the IIFE return value
 let pokemonRepository = (function () {
-
     // Create an empty array to hold Pokémon objects
     let pokemonList = [];
 
@@ -46,11 +45,78 @@ let pokemonRepository = (function () {
         pokemonContainer.appendChild(listItem);
     }
 
-    // Define the showDetails function to log Pokémon details
+    // Define the showDetails function to show a modal with Pokémon details   
     function showDetails(pokemon) {
         loadDetails(pokemon)
             .then(result => {
                 console.log(result);
+
+                // Create modal elements
+                const modal = document.createElement('div');
+                modal.id = 'modal';
+                modal.classList.add('modal');
+
+                const modalContent = document.createElement('div');
+                modalContent.classList.add('modal-content');
+
+                const closeButton = document.createElement('span');
+                closeButton.classList.add('close');
+                closeButton.innerHTML = '&times;';
+
+                const nameElement = document.createElement('div');
+                nameElement.id = 'modal-name';
+                nameElement.classList.add('pokemon-name');
+                nameElement.textContent = "Name: " + pokemon.name;
+
+                const heightElement = document.createElement('div');
+                heightElement.id = 'modal-height';
+                heightElement.classList.add('pokemon-height');
+                heightElement.textContent = "Height: " + pokemon.height;
+
+                const typeElement = document.createElement('div');
+                typeElement.id = 'modal-type';
+                typeElement.classList.add('pokemon-type');
+                typeElement.textContent = "Type: " + pokemon.types.map(type => type.type.name).join(', ');
+
+                const imgElement = document.createElement('img');
+                imgElement.id = 'modal-img';
+                imgElement.classList.add('pokemon-img');
+                imgElement.src = pokemon.imgUrl;
+                imgElement.alt = 'Pokemon Image';
+
+                // Append elements to modal content
+                modalContent.appendChild(closeButton);
+                modalContent.appendChild(nameElement);
+                modalContent.appendChild(heightElement);
+                modalContent.appendChild(typeElement);
+                modalContent.appendChild(imgElement);
+
+                // Append modal content to modal
+                modal.appendChild(modalContent);
+
+                // Append modal to body
+                document.body.appendChild(modal);
+
+                // Display the modal
+                modal.style.display = 'block';
+
+                // Close the modal and remove modal HTML code when the close button is clicked
+                closeButton.onclick = function() {
+                    modal.style.display = 'none';
+                    document.body.removeChild(modal);
+                };
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
+                        document.body.removeChild(modal);
+                    }
+                };
+                document.onkeydown = function(event) {
+                    if (event.key === "Escape") {
+                        modal.style.display = 'none';
+                        document.body.removeChild(modal);
+                    }
+                };
             })
             .catch(error => {
                 console.error('Error loading Pokémon details:', error);
@@ -90,6 +156,7 @@ let pokemonRepository = (function () {
             .then(data => {
                 pokemon.imgUrl = data.sprites.front_default;
                 pokemon.height = data.height;
+                pokemon.types = data.types;
                 return pokemon;
             })
             .catch(error => console.error('Error fetching Pokémon details:', error));
@@ -106,7 +173,8 @@ let pokemonRepository = (function () {
         // Function to load the complete list of Pokémon
         loadList: loadList,
         // Function to load details of a specific Pokémon
-        loadDetails: loadDetails
+        loadDetails: loadDetails,
+        showDetails
     };
 
 })();
@@ -128,7 +196,11 @@ pokemonRepository.loadList().then(function () {
 
             let heightElement = document.createElement("div");
             heightElement.classList.add("pokemon-height");
-            heightElement.textContent = "Height: " + pokemon.height;
+            // heightElement.textContent = "Height: " + pokemon.height;
+
+            let typeElement = document.createElement("div");
+            typeElement.classList.add("pokemon-type");
+            // typeElement.textContent = "Type: " + pokemon.types.map(type => type.type.name).join(', ');
 
             let imgElement = document.createElement("img");
             imgElement.classList.add("pokemon-img");
@@ -137,14 +209,12 @@ pokemonRepository.loadList().then(function () {
             // Append name, height, and image elements to the Pokémon card
             pokemonCard.appendChild(nameElement);
             pokemonCard.appendChild(heightElement);
+            pokemonCard.appendChild(typeElement);
             pokemonCard.appendChild(imgElement);
 
             // Add event listener to the Pokémon card (main container)
             pokemonCard.addEventListener('click', function () {
-                // Log Pokémon details to the console
-                console.log("Name: " + pokemon.name);
-                console.log("Height: " + pokemon.height);
-                console.log("Image URL: " + pokemon.imgUrl);
+                pokemonRepository.showDetails(pokemon);
             });
 
             // Append the Pokémon card to the container

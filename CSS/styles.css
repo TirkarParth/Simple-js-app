@@ -28,69 +28,66 @@
     background-color: #be4f4f;
 }
 
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
+/* Modal styles */
 .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    width: 80%;
-    max-width: 600px;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+  }
   
-.modal-content {
+  /* Modal content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Set max width */
     position: relative;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-}
+    border-radius: 10px;
+  }
   
-.closeBtn {
+  /* Close button */
+  .close {
+    color: #aaa;
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
+    font-size: 28px;
+    font-weight: bold;
+  }
   
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-  
-  
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-    .modal {
-      width: 90%;
-    }
-}
-  
-.button-class {
-    background-color: lightblue;
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    background-color: white;
+  .close:hover,
+  .close:focus {
     color: black;
-    border: 2px solid lightblue;
-}
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Image styling */
+  .pokemon-img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Ensures image is centered */
+    margin: 0 auto; /* Centers image horizontally */
+    margin-bottom: 10px;
+  }
+  
+  /* Other styles as needed */
+  .pokemon-name {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .pokemon-height {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
